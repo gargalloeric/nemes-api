@@ -1,9 +1,11 @@
 package es.nemes.models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 @NamedQueries({
         @NamedQuery(name = "NUser.findAll", query = "SELECT u FROM NUser u")
