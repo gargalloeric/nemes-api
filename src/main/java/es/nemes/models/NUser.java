@@ -12,6 +12,9 @@ import java.util.Objects;
 })
 public class NUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(unique = true)
     String email;
     String username;
     String password;
