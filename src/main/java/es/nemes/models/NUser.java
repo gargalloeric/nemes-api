@@ -16,6 +16,7 @@ public class NUser {
     private Long id;
     @Column(unique = true)
     String email;
+    @Column(unique = true)
     String username;
     String password;
     String phone;
@@ -34,10 +35,6 @@ public class NUser {
     @Transient
     public static final NUser NOT_FOUND = new NUser("Not found", "Unknown", "", "");
 
-    public String getEmail() {
-        return email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,6 +51,7 @@ public class NUser {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + id + '\'' +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -61,10 +59,27 @@ public class NUser {
                 '}';
     }
 
-    public void update(NUser user) {
-        email = user.email;
-        username = user.username;
-        password = user.password;
-        phone = user.phone;
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
