@@ -28,7 +28,7 @@ public class NUserController {
     public Response createNUser(NUser user) throws URISyntaxException {
         NUser response = dao.create(user);
         if(response == NUser.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
-        URI uri = new URI("/nuser/" + user.getEmail());
+        URI uri = new URI("/nuser/" + user.getId());
         return Response.created(uri).build();
     }
 }
