@@ -1,6 +1,7 @@
 package es.nemes.repositories;
 
 import es.nemes.models.NUser;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -18,6 +19,10 @@ public class UserDAOJPA implements UserDAO {
     @Override
     @Transactional
     public NUser create(NUser user) {
+        // Before persisting the user, we hash the password.
+        user.setPassword(
+                BcryptUtil.bcryptHash(user.getPassword())
+        );
         em.persist(user);
         return user;
     }
