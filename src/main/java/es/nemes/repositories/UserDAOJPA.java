@@ -28,6 +28,12 @@ public class UserDAOJPA implements UserDAO {
     }
 
     @Override
+    public NUser findByEmail(String email) {
+        TypedQuery<NUser> query = em.createNamedQuery("NUser.findByEmail", NUser.class);
+        return query.setParameter("email", email).getSingleResult();
+    }
+
+    @Override
     public Collection<NUser> getUsers() {
         TypedQuery<NUser> query = em.createNamedQuery("NUser.findAll", NUser.class);
         List<NUser> result = query.getResultList();
