@@ -1,5 +1,6 @@
 package es.nemes.repositories;
 
+import es.nemes.models.NGroup;
 import es.nemes.models.NUser;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,6 +24,10 @@ public class UserDAOJPA implements UserDAO {
         user.setPassword(
                 BcryptUtil.bcryptHash(user.getPassword())
         );
+
+        // Set the user group by default.
+        user.setGroupName(NGroup.User);
+
         em.persist(user);
         return user;
     }
