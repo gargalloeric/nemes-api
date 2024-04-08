@@ -8,7 +8,8 @@ import java.util.Objects;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "NUser.findAll", query = "SELECT u FROM NUser u")
+        @NamedQuery(name = "NUser.findAll", query = "SELECT u FROM NUser u"),
+        @NamedQuery(name = "NUser.findByEmail", query = "SELECT u FROM NUser u WHERE u.email = :email")
 })
 public class NUser {
     @Id

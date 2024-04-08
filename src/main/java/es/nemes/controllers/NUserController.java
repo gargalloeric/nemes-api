@@ -1,7 +1,9 @@
 package es.nemes.controllers;
 
 import es.nemes.models.NUser;
+import es.nemes.models.NUserLogin;
 import es.nemes.repositories.UserDAO;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -31,4 +33,20 @@ public class NUserController {
         URI uri = new URI("/nuser/" + user.getId());
         return Response.created(uri).build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response loginNUser(NUserLogin user) throws URISyntaxException {
+        NUser response = dao.findByEmail(user.getEmail());
+        if (response == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (BcryptUtil.matches(user.getPassword(), response.getPassword())){
+            return Response.ok().build();
+        }
+        return Response.status(400).build();
+    }
+
 }
