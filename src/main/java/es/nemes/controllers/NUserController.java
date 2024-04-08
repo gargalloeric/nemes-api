@@ -4,6 +4,8 @@ import es.nemes.models.NUser;
 import es.nemes.models.NUserLogin;
 import es.nemes.repositories.UserDAO;
 import io.quarkus.elytron.security.common.BcryptUtil;
+import io.smallrye.jwt.build.Jwt;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -34,19 +36,25 @@ public class NUserController {
         return Response.created(uri).build();
     }
 
+
     @POST
+    @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/login")
     public Response loginNUser(NUserLogin user) throws URISyntaxException {
-        NUser response = dao.findByEmail(user.getEmail());
-        if (response == null) {
+        NUser registeredUser = dao.findByEmail(user.getEmail());
+        if (registeredUser == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if (BcryptUtil.matches(user.getPassword(), response.getPassword())){
-            return Response.ok().build();
+        if (!BcryptUtil.matches(user.getPassword(), registeredUser.getPassword())){
+            return Response.status(400).build();
         }
-        return Response.status(400).build();
+        String token = Jwt
+                .issuer("https://example.com/issuer")
+                .upn(registeredUser.getEmail())
+                .groups(registeredUser.getGroupName().toString())
+                .sign();
+        return Response.ok(token).build();
     }
-
 }

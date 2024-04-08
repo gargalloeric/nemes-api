@@ -58,10 +58,11 @@ public class NUser {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                "email='" + email + '\'' +
+                ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 
