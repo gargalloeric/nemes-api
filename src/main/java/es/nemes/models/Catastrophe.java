@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @NamedQueries({
-        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT u FROM NUser u")
+        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c")
 })
 public class Catastrophe {
     @Id
