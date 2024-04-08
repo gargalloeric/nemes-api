@@ -14,13 +14,22 @@ public class NInterestArea {
     String description;
     @ManyToOne
     NUser user;
+    @OneToOne
+    Zone zone;
 
     public NInterestArea() { super(); }
 
-    public NInterestArea(String name, String description, NUser user) {
+    public NInterestArea(String name, String description) {
         this.name = name;
         this.description = description;
+        this.zone = zone;
+    }
+
+    public void setUser(NUser user) {
         this.user = user;
     }
 
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
 }
