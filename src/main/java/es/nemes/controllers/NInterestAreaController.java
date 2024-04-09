@@ -1,5 +1,6 @@
 package es.nemes.controllers;
 
+import es.nemes.models.InterestAreaQuery;
 import es.nemes.models.NInterestArea;
 import es.nemes.models.NUser;
 import es.nemes.repositories.InterestAreaDAO;
@@ -29,11 +30,18 @@ public class NInterestAreaController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"User"})
     @Path("/create")
-    public Response createNInterestArea(NInterestArea area) throws URISyntaxException {
+    public Response createNInterestArea(InterestAreaQuery areaQuery) throws URISyntaxException {
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
-        area.setUser(user);
+        NInterestArea area = new NInterestArea(
+                areaQuery.getName(),
+                areaQuery.getDescription(),
+                user,
+                areaQuery.getZone());
+
         NInterestArea response = dao.create(area);
-        return Response.ok().build();
+        if(response == NInterestArea.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
+        URI uri = new URI("/interest-area/" + area.getId());
+        return Response.created(uri).build();
     }
 }
