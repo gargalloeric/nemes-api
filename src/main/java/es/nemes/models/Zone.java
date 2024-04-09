@@ -53,4 +53,14 @@ public class Zone {
     public void setPolygon(List<Coordinate> polygon) {
         this.polygons = polygon;
     }
+
+    @Override
+    public String toString() {
+        return "Zone{" +
+                "id=" + id +
+                ", center=" + center +
+                ", radius=" + radius +
+                ", polygons=" + polygons +
+                '}';
+    }
 }
