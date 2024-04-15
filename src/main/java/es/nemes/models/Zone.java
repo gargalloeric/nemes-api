@@ -1,22 +1,20 @@
 package es.nemes.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
 @Entity
 public class Zone {
-
     @Id
     @GeneratedValue
     private Long id;
-
-    private int center;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Coordinate center;
     private int radius;
-    @OneToMany
+    @JdbcTypeCode(SqlTypes.JSON)
     private List<Coordinate> polygons;
 
     public Zone() {
@@ -30,7 +28,7 @@ public class Zone {
         return id;
     }
 
-    public int getCenter() {
+    public Coordinate getCenter() {
         return center;
     }
 
@@ -42,7 +40,7 @@ public class Zone {
         return polygons;
     }
 
-    public void setCenter(int center) {
+    public void setCenter(Coordinate center) {
         this.center = center;
     }
 
@@ -53,6 +51,7 @@ public class Zone {
     public void setPolygon(List<Coordinate> polygon) {
         this.polygons = polygon;
     }
+
 
     @Override
     public String toString() {

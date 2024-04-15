@@ -1,13 +1,15 @@
 package es.nemes.models;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity
+import java.io.Serializable;
+import java.util.Objects;
+
+
 public class Coordinate {
-    @Id
     private float lat;
-    @Id
     private float lon;
 
     public Coordinate() {
@@ -27,5 +29,26 @@ public class Coordinate {
 
     public void setLon(float lon) {
         this.lon = lon;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinate that = (Coordinate) o;
+        return Float.compare(lat, that.lat) == 0 && Float.compare(lon, that.lon) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lat, lon);
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinate{" +
+                "lat=" + lat +
+                ", lon=" + lon +
+                '}';
     }
 }
