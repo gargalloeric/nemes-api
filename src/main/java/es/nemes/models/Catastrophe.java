@@ -4,39 +4,36 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@Entity
+
+//@IdClass(CatastropheKey.class)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @NamedQueries({
         @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c")
 })
+
+@Entity
 public class Catastrophe {
     @Id
-    private String identifier;
-    private String severity;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumns({
+            @JoinColumn(name = "eventname", referencedColumnName = "eventname"),
+            @JoinColumn(name = "serverity", referencedColumnName = "severity")})
+    private Event event;
     @Id
-    private String completeName;
+    private String name;
     private String description;
+    @Id
     private LocalDate startDate;
     private LocalDate lastValidDate;
-    @OneToMany
-    private List<Zone> zone;
-
+    @Id
+    @OneToOne(cascade = CascadeType.ALL)
+    private Zone zone;
 
     public Catastrophe() {}
 
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
-
-    public String getCompleteName() {
-        return completeName;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
@@ -51,18 +48,8 @@ public class Catastrophe {
         return lastValidDate;
     }
 
-
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
-    public void setCompleteName(String completeName) {
-        this.completeName = completeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setDescription(String description) {
@@ -78,11 +65,31 @@ public class Catastrophe {
     }
 
 
-    public List<Zone> getZone() {
+    public Zone getZone() {
         return zone;
     }
 
-    public void setZone(List<Zone> zone) {
+    public void setZone(Zone zone) {
         this.zone = zone;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    @Override
+    public String toString() {
+        return "Catastrophe{" +
+                "event=" + event +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", lastValidDate=" + lastValidDate +
+                ", zone=" + zone +
+                '}';
     }
 }

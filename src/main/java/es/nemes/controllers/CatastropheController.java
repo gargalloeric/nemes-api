@@ -5,6 +5,7 @@ import es.nemes.models.NUserLogin;
 import es.nemes.repositories.CatastropheDAO;
 import es.nemes.repositories.UserDAO;
 import io.quarkus.elytron.security.common.BcryptUtil;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -19,8 +20,11 @@ public class CatastropheController {
     CatastropheDAO dao;
 
     @GET
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNUsers() {
+    public Response getCatastrophes() {
+        System.out.println(dao.getCatastrophes());
+        
         return Response.ok(dao.getCatastrophes()).build();
     }
 }
