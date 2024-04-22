@@ -22,19 +22,24 @@ public class NUser {
     String password;
     String phone;
 
+    @Enumerated(EnumType.STRING)
+    NGroup groupName;
+
+
     public NUser(){
         super();
     }
 
-    public NUser(String email, String username, String password, String phone) {
+    public NUser(String email, String username, String password, String phone, NGroup groupName) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.phone = phone;
+        this.groupName = groupName;
     }
 
     @Transient
-    public static final NUser NOT_FOUND = new NUser("Not found", "Unknown", "", "");
+    public static final NUser NOT_FOUND = new NUser("Not found", "Unknown", "", "", NGroup.Anonymous);
 
     @Override
     public boolean equals(Object o) {
@@ -53,10 +58,11 @@ public class NUser {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                "email='" + email + '\'' +
+                ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 
@@ -82,5 +88,13 @@ public class NUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public NGroup getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(NGroup groupName) {
+        this.groupName = groupName;
     }
 }
