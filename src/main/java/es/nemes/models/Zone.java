@@ -20,6 +20,16 @@ public class Zone {
     public Zone() {
     }
 
+    public Zone(Coordinate center, int radius, List<Coordinate> polygons) {
+        this.center = center;
+        this.radius = radius;
+        this.polygons = polygons;
+    }
+
+    @Transient
+    public static final Zone NOT_FOUND = new Zone(null, 0, null);
+
+
     public void setId(Long id) {
         this.id = id;
     }

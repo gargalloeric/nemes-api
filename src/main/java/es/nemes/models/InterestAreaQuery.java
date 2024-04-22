@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 public class InterestAreaQuery {
     String name;
     String description;
-    NZone zone;
+    Zone zone;
 
     @Override
     public String toString() {
@@ -25,7 +25,7 @@ public class InterestAreaQuery {
         return description;
     }
 
-    public NZone getZone() {
+    public Zone getZone() {
         return zone;
     }
 }

@@ -3,8 +3,10 @@ package es.nemes.controllers;
 import es.nemes.models.InterestAreaQuery;
 import es.nemes.models.NInterestArea;
 import es.nemes.models.NUser;
+import es.nemes.models.Zone;
 import es.nemes.repositories.InterestAreaDAO;
 import es.nemes.repositories.UserDAO;
+import es.nemes.repositories.ZoneDAO;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -34,7 +36,8 @@ public class NInterestAreaController {
     @RolesAllowed({"User"})
     @Path("/create")
     public Response createNInterestArea(InterestAreaQuery areaQuery) throws URISyntaxException {
-        NZone responseZone = zoneDAO.create(areaQuery.getZone());
+        Zone responseZone = zoneDAO.create(areaQuery.getZone());
+        if (responseZone == Zone.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
 
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
