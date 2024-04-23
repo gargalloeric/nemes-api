@@ -2,18 +2,22 @@ package es.nemes.models;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
+import java.util.List;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class InterestAreaQuery {
     String name;
     String description;
     Zone zone;
+    List<Event> events;
 
     @Override
     public String toString() {
         return "InterestAreaQuery{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", zone='" + zone + '\'' +
+                ", zone=" + zone +
+                ", events=" + events +
                 '}';
     }
 
@@ -27,5 +31,9 @@ public class InterestAreaQuery {
 
     public Zone getZone() {
         return zone;
+    }
+
+    public List<Event> getEvents() {
+        return events;
     }
 }

@@ -3,6 +3,8 @@ package es.nemes.models;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 public class NInterestArea {
@@ -16,19 +18,25 @@ public class NInterestArea {
     NUser user;
     @OneToOne
     Zone zone;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Event> events;
 
     public NInterestArea() { super(); }
 
-    public NInterestArea(String name, String description, NUser user, Zone zone) {
+    public NInterestArea(String name, String description, NUser user, Zone zone, List<Event> events) {
         this.name = name;
         this.description = description;
         this.user = user;
         this.zone = zone;
+        this.events = events;
     }
 
     @Transient
-    public static final NInterestArea NOT_FOUND = new NInterestArea("Unknown", "Unknown", NUser.NOT_FOUND, null);
+    public static final NInterestArea NOT_FOUND = new NInterestArea("Unknown", "Unknown", NUser.NOT_FOUND, null, null);
 
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
@@ -38,10 +46,7 @@ public class NInterestArea {
                 ", description='" + description + '\'' +
                 ", user=" + user +
                 ", zone=" + zone +
+                ", events=" + events +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
     }
 }

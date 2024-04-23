@@ -45,12 +45,12 @@ public class NInterestAreaController {
                 areaQuery.getName(),
                 areaQuery.getDescription(),
                 user,
-                areaQuery.getZone());
+                areaQuery.getZone(),
+                areaQuery.getEvents());
 
         NInterestArea response = dao.create(area);
         if(response == NInterestArea.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
         URI uri = new URI("/interest-area/" + area.getId());
-        System.out.println(area);
         return Response.created(uri).build();
     }
 }
