@@ -1,10 +1,10 @@
 package es.nemes.controllers;
 
-import es.nemes.models.InterestAreaQuery;
-import es.nemes.models.NInterestArea;
+import es.nemes.models.SubscriptionQuery;
+import es.nemes.models.Subscription;
 import es.nemes.models.NUser;
 import es.nemes.models.Zone;
-import es.nemes.repositories.InterestAreaDAO;
+import es.nemes.repositories.SubscriptionDAO;
 import es.nemes.repositories.UserDAO;
 import es.nemes.repositories.ZoneDAO;
 import jakarta.annotation.security.RolesAllowed;
@@ -17,10 +17,10 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@Path("/interest-area")
-public class NInterestAreaController {
+@Path("/subscription")
+public class SubscriptionController {
     @Inject
-    InterestAreaDAO dao;
+    SubscriptionDAO dao;
     @Inject
     UserDAO userDAO;
 
@@ -35,22 +35,22 @@ public class NInterestAreaController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"User"})
     @Path("/create")
-    public Response createNInterestArea(InterestAreaQuery areaQuery) throws URISyntaxException {
-        Zone responseZone = zoneDAO.create(areaQuery.getZone());
+    public Response createNInterestArea(SubscriptionQuery subscriptionQuery) throws URISyntaxException {
+        Zone responseZone = zoneDAO.create(subscriptionQuery.getZone());
         if (responseZone == Zone.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
 
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
-        NInterestArea area = new NInterestArea(
-                areaQuery.getName(),
-                areaQuery.getDescription(),
+        Subscription subscription = new Subscription(
+                subscriptionQuery.getName(),
+                subscriptionQuery.getDescription(),
                 user,
-                areaQuery.getZone(),
-                areaQuery.getEvents());
+                subscriptionQuery.getZone(),
+                subscriptionQuery.getEvents());
 
-        NInterestArea response = dao.create(area);
-        if(response == NInterestArea.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
-        URI uri = new URI("/interest-area/" + area.getId());
+        Subscription response = dao.create(subscription);
+        if(response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
+        URI uri = new URI("/subscription/" + subscription.getId());
         return Response.created(uri).build();
     }
 }

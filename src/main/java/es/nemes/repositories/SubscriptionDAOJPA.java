@@ -1,6 +1,6 @@
 package es.nemes.repositories;
 
-import es.nemes.models.NInterestArea;
+import es.nemes.models.Subscription;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -9,19 +9,19 @@ import jakarta.transaction.Transactional;
 import java.util.Collection;
 
 @ApplicationScoped
-public class InterestAreaDAOJPA implements InterestAreaDAO {
+public class SubscriptionDAOJPA implements SubscriptionDAO {
     @Inject
     EntityManager em;
 
     @Override
     @Transactional
-    public NInterestArea create(NInterestArea area) {
-        em.persist(area);
-        return area;
+    public Subscription create(Subscription subscription) {
+        em.persist(subscription);
+        return subscription;
     }
 
     @Override
-    public Collection<NInterestArea> getInterestsArea() {
+    public Collection<Subscription> getSubscriptions() {
         return null;
     }
 }

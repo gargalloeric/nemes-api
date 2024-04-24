@@ -7,7 +7,7 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
-public class NInterestArea {
+public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,9 +21,9 @@ public class NInterestArea {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Event> events;
 
-    public NInterestArea() { super(); }
+    public Subscription() { super(); }
 
-    public NInterestArea(String name, String description, NUser user, Zone zone, List<Event> events) {
+    public Subscription(String name, String description, NUser user, Zone zone, List<Event> events) {
         this.name = name;
         this.description = description;
         this.user = user;
@@ -32,7 +32,7 @@ public class NInterestArea {
     }
 
     @Transient
-    public static final NInterestArea NOT_FOUND = new NInterestArea("Unknown", "Unknown", NUser.NOT_FOUND, null, null);
+    public static final Subscription NOT_FOUND = new Subscription("Unknown", "Unknown", NUser.NOT_FOUND, null, null);
 
     public Long getId() {
         return id;

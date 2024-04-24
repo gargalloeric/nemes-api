@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class InterestAreaQuery {
+public class SubscriptionQuery {
     String name;
     String description;
     Zone zone;
@@ -13,7 +13,7 @@ public class InterestAreaQuery {
 
     @Override
     public String toString() {
-        return "InterestAreaQuery{" +
+        return "SubscriptionQuery {" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", zone=" + zone +
