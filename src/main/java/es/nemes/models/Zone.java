@@ -1,12 +1,16 @@
 package es.nemes.models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
 import java.util.List;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Zone.findAll", query = "SELECT z FROM Zone z")
+})
 public class Zone {
-
     @Id
     @GeneratedValue
     private Long id;

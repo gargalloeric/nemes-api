@@ -1,13 +1,17 @@
 package es.nemes.repositories;
 
+import es.nemes.models.NUser;
 import es.nemes.models.Zone;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Transient;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @ApplicationScoped
 public class ZoneDAOJPA implements ZoneDAO {
@@ -23,6 +27,9 @@ public class ZoneDAOJPA implements ZoneDAO {
 
     @Override
     public Collection<Zone> getZones() {
-        return null;
+        TypedQuery<Zone> query = em.createNamedQuery("Zone.findAll", Zone.class);
+        List<Zone> result = query.getResultList();
+        if (result != null) return result;
+        return new ArrayList<>();
     }
 }
