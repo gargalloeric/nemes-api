@@ -25,9 +25,6 @@ public class SubscriptionController {
     UserDAO userDAO;
 
     @Inject
-    ZoneDAO zoneDAO;
-
-    @Inject
     JsonWebToken jwt;
 
     @POST
@@ -35,7 +32,7 @@ public class SubscriptionController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"User"})
     @Path("/create")
-    public Response createNInterestArea(SubscriptionQuery subscriptionQuery) throws URISyntaxException {
+    public Response createSubscription(SubscriptionQuery subscriptionQuery) throws URISyntaxException {
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
         if (user == null) {
