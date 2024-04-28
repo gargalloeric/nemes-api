@@ -38,6 +38,10 @@ public class SubscriptionController {
     public Response createNInterestArea(SubscriptionQuery subscriptionQuery) throws URISyntaxException {
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
         Subscription subscription = new Subscription(
                 subscriptionQuery.getName(),
                 subscriptionQuery.getDescription(),
