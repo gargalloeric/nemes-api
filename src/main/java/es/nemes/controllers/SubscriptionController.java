@@ -36,9 +36,6 @@ public class SubscriptionController {
     @RolesAllowed({"User"})
     @Path("/create")
     public Response createNInterestArea(SubscriptionQuery subscriptionQuery) throws URISyntaxException {
-        Zone responseZone = zoneDAO.create(subscriptionQuery.getZone());
-        if (responseZone == Zone.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
-
         String userEmail = jwt.getClaim("upn");
         NUser user = userDAO.findByEmail(userEmail);
         Subscription subscription = new Subscription(
