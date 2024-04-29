@@ -9,6 +9,7 @@ import jakarta.persistence.Transient;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,14 @@ public class ZoneDAOJPA implements ZoneDAO {
     public Zone create(Zone zone) {
         em.persist(zone);
         return zone;
+    }
+
+    @Override
+    public Zone findByCenter(BigDecimal centerLat, BigDecimal centerLon) {
+        TypedQuery<Zone> query = em.createNamedQuery("Zone.findByCenter", Zone.class)
+                .setParameter("lat", centerLat)
+                .setParameter("lat", centerLon);
+        return query.getSingleResult();
     }
 
     @Override

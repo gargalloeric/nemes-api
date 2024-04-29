@@ -23,6 +23,8 @@ public class SubscriptionController {
     SubscriptionDAO dao;
     @Inject
     UserDAO userDAO;
+    @Inject
+    ZoneDAO zoneDAO;
 
     @Inject
     JsonWebToken jwt;
@@ -39,15 +41,20 @@ public class SubscriptionController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
+        Zone zone = zoneDAO.findByCenter(subscriptionQuery.getCenterLat(), subscriptionQuery.getCenterLon());
+        if (zone == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
         Subscription subscription = new Subscription(
                 subscriptionQuery.getName(),
                 subscriptionQuery.getDescription(),
                 user,
-                subscriptionQuery.getZone(),
+                zone,
                 subscriptionQuery.getEvents());
 
         Subscription response = dao.create(subscription);
-        if(response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
+        if (response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
         URI uri = new URI("/subscription/" + subscription.getId());
         return Response.created(uri).build();
     }

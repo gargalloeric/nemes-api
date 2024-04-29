@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Zone.findAll", query = "SELECT z FROM Zone z"),
-        @NamedQuery(name = "findByCenter", query = "SELECT z FROM Zone z WHERE z.centerLat = :lat AND z.centerLon = :lon")
+        @NamedQuery(name = "Zone.findByCenter", query = "SELECT z FROM Zone z WHERE z.centerLat = :lat AND z.centerLon = :lon")
 })
 public class Zone {
 
