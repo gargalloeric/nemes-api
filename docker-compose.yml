@@ -3,7 +3,7 @@ services:
     image: postgres:16.2-alpine
     restart: always
     environment:
-      - POSTGRES_PASSWORD=nemes
-      - POSTGRES_USER=nemes
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USERNAME}
     ports:
       - 5432:5432
