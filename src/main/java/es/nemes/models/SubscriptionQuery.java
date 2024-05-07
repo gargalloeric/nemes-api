@@ -8,22 +8,12 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SubscriptionQuery {
-    String name;
-    String description;
     @Column(precision=6, scale=4)
     BigDecimal centerLat;
     @Column(precision=6, scale=4)
     BigDecimal centerLon;
-    List<Event> events;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    List<String> eventsName;
+    List<String> eventsSeverity;
 
     public BigDecimal getCenterLat() {
         return centerLat;
@@ -34,18 +24,29 @@ public class SubscriptionQuery {
     }
 
 
-    public List<Event> getEvents() {
-        return events;
+    public List<String> getEventsName() {
+        return eventsName;
+    }
+
+    public void setEventsName(List<String> eventsName) {
+        this.eventsName = eventsName;
+    }
+
+    public List<String> getEventsSeverity() {
+        return eventsSeverity;
+    }
+
+    public void setEventsSeverity(List<String> eventsSeverity) {
+        this.eventsSeverity = eventsSeverity;
     }
 
     @Override
     public String toString() {
         return "SubscriptionQuery{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", centerLat=" + centerLat +
+                "centerLat=" + centerLat +
                 ", centerLon=" + centerLon +
-                ", events=" + events +
+                ", eventsName=" + eventsName +
+                ", eventsSeverity=" + eventsSeverity +
                 '}';
     }
 }
