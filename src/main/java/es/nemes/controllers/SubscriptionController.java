@@ -1,9 +1,7 @@
 package es.nemes.controllers;
 
-import es.nemes.models.SubscriptionQuery;
-import es.nemes.models.Subscription;
-import es.nemes.models.NUser;
-import es.nemes.models.Zone;
+import es.nemes.models.*;
+import es.nemes.repositories.EventDAO;
 import es.nemes.repositories.SubscriptionDAO;
 import es.nemes.repositories.UserDAO;
 import es.nemes.repositories.ZoneDAO;
@@ -16,6 +14,8 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/subscription")
 public class SubscriptionController {
@@ -25,6 +25,8 @@ public class SubscriptionController {
     UserDAO userDAO;
     @Inject
     ZoneDAO zoneDAO;
+    @Inject
+    EventDAO eventDAO;
 
     @Inject
     JsonWebToken jwt;
@@ -46,16 +48,27 @@ public class SubscriptionController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
+        List<String> queryEventsName = subscriptionQuery.getEventsName();
+        List<String> queryEventsSeverity = subscriptionQuery.getEventsSeverity();
+        List<Event> events = new ArrayList<>();
+        for (int i = 0; i < queryEventsName.size(); i++) {
+            String eventName = queryEventsName.get(i);
+            String eventSeverity = queryEventsSeverity.get(i);
+
+            Event eventFound = eventDAO.findById(eventName, eventSeverity);
+
+            events.add(eventFound);
+        }
+
         Subscription subscription = new Subscription(
-                subscriptionQuery.getName(),
-                subscriptionQuery.getDescription(),
                 user,
                 zone,
-                subscriptionQuery.getEvents());
+                events);
 
         Subscription response = dao.create(subscription);
         if (response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
         URI uri = new URI("/subscription/" + subscription.getId());
+        System.out.println(subscription);
         return Response.created(uri).build();
     }
 }
