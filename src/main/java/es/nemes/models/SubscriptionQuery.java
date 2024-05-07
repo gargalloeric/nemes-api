@@ -8,18 +8,16 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SubscriptionQuery {
-    @Column(precision=6, scale=4)
-    BigDecimal centerLat;
-    @Column(precision=6, scale=4)
-    BigDecimal centerLon;
+    String centerLat;
+    String centerLon;
     List<String> eventsName;
     List<String> eventsSeverity;
 
-    public BigDecimal getCenterLat() {
+    public String getCenterLat() {
         return centerLat;
     }
 
-    public BigDecimal getCenterLon() {
+    public String getCenterLon() {
         return centerLon;
     }
 

@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -43,7 +44,10 @@ public class SubscriptionController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Zone zone = zoneDAO.findByCenter(subscriptionQuery.getCenterLat(), subscriptionQuery.getCenterLon());
+        BigDecimal bigDecimalLat = new BigDecimal(subscriptionQuery.getCenterLat());
+        BigDecimal bigDecimalLon = new BigDecimal(subscriptionQuery.getCenterLon());
+
+        Zone zone = zoneDAO.findByCenter(bigDecimalLat, bigDecimalLon);
         if (zone == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
