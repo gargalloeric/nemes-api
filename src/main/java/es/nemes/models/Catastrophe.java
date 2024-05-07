@@ -15,6 +15,7 @@ import java.time.LocalDate;
                 "AND 0.1 > abs(:centerlat - c.zone.centerLat) " +
                 "AND 0.1 > abs(:centerlon - c.zone.centerLon) "
         )
+
 })
 
 @Entity

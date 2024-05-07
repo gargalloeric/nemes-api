@@ -17,6 +17,7 @@ public class SubscriptionQuery {
     List<Event> events;
 
 
+
     public String getName() {
         return name;
     }
