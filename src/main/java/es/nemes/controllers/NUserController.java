@@ -6,10 +6,12 @@ import es.nemes.repositories.UserDAO;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +20,8 @@ import java.net.URISyntaxException;
 public class NUserController {
     @Inject
     UserDAO dao;
-
+    @Inject
+    JsonWebToken jwt;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getNUsers() {
@@ -56,5 +59,15 @@ public class NUserController {
                 .groups(registeredUser.getGroupName().toString())
                 .sign();
         return Response.ok(token).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"User", "Admin"})
+    @Path("/me")
+    public Response me() {
+        String email = jwt.getClaim("upn");
+        NUser user = dao.findByEmail(email);
+        return Response.ok(user).build();
     }
 }
