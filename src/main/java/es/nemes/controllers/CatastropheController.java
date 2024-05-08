@@ -23,8 +23,6 @@ public class CatastropheController {
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCatastrophes() {
-        System.out.println(dao.getCatastrophes());
-        
         return Response.ok(dao.getCatastrophes()).build();
     }
 }
