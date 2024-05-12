@@ -15,8 +15,10 @@ public class Subscription {
     private Long id;
     @ManyToOne
     NUser user;
-    @OneToOne
+    @ManyToOne
     Zone zone;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Event> events;
 
     public NUser getUser() {
         return user;
@@ -42,8 +44,7 @@ public class Subscription {
         this.events = events;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Event> events;
+
 
     public Subscription() { super(); }
 
