@@ -5,11 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.transaction.Transactional;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findById", query = "SELECT e FROM Event e WHERE e.eventName = :name AND e.severity = :severity")
+        @NamedQuery(name = "Event.findById", query = "SELECT e FROM Event e WHERE e.eventName = :name AND e.severity = :severity")
 })
 public class Event {
     @Id

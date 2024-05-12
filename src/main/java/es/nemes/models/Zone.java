@@ -14,6 +14,7 @@ import java.util.List;
 })
 public class Zone {
 
+    // mannually added center, don't use coordinate as it will difficult queries
     @Id
     @Column(precision=6, scale=4)
     private BigDecimal centerLat;
@@ -23,33 +24,28 @@ public class Zone {
     private BigDecimal centerLon;
 
     private int radius;
+    private String descriptiveName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zone")
-    private List<Coordinate> polygons;
+    private List<Coordinate> polygon;
 
     public Zone() {
     }
 
-    public Zone(BigDecimal centerLat, BigDecimal centerLon, int radius, List<Coordinate> polygons) {
-        this.centerLat = centerLat;
-        this.centerLon = centerLon;
-        this.radius = radius;
-        this.polygons = polygons;
+    public int getRadius() {
+        return radius;
     }
 
-    @Transient
-    public static final Zone NOT_FOUND = new Zone(new BigDecimal(0), new BigDecimal(0), 0, null);
-
     public List<Coordinate> getPolygons() {
-        return polygons;
+        return polygon;
     }
 
     public void setRadius(int radius) {
         this.radius = radius;
     }
 
-    public void setPolygons(List<Coordinate> polygon) {
-        this.polygons = polygon;
+    public void setPolygon(List<Coordinate> polygon) {
+        this.polygon = polygon;
     }
 
     public BigDecimal getCenterLat() {
@@ -74,7 +70,21 @@ public class Zone {
                 "lat=" + centerLat +
                 ", lon=" + centerLon +
                 ", radius=" + radius +
-                ", polygons=" + polygons +
+                ", polygon=" + polygon +
                 '}';
+    }
+
+    public void configureCoordinates() {
+        for (Coordinate coordinate : polygon) {
+            coordinate.setZone(this);
+        }
+    }
+
+    public String getDescriptiveName() {
+        return descriptiveName;
+    }
+
+    public void setDescriptiveName(String descriptiveName) {
+        this.descriptiveName = descriptiveName;
     }
 }

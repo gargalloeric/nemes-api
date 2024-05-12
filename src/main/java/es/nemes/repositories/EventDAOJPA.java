@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
 
@@ -15,9 +16,10 @@ public class EventDAOJPA implements EventDAO {
     EntityManager em;
 
     @Override
+    @Transactional
     public Event findById(String eventName, String severity) {
         TypedQuery<Event> query = em.createNamedQuery("Event.findById", Event.class)
-                .setParameter("eventName", eventName)
+                .setParameter("name", eventName)
                 .setParameter("severity", severity);
         return query.getSingleResult();
     }

@@ -11,12 +11,12 @@ public class Coordinate {
     private Long id;
 
     @Id
-    @JsonIgnore
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "zonecenterlat", referencedColumnName = "centerLat"),
             @JoinColumn(name = "zonecenterlon", referencedColumnName = "centerLon"),
     })
+    @JsonIgnore
     private Zone zone;
 
     private float lat;

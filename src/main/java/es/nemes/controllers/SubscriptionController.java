@@ -64,6 +64,11 @@ public class SubscriptionController {
             events.add(eventFound);
         }
 
+        /*Event eventMock = new Event();
+        eventMock.setEventName("Falso");
+        eventMock.setSeverity("Moderada");
+        ArrayList<Event> arryMock = new ArrayList<Event>();
+        arryMock.add(eventMock);*/
         Subscription subscription = new Subscription(
                 user,
                 zone,
@@ -72,7 +77,7 @@ public class SubscriptionController {
         Subscription response = dao.create(subscription);
         if (response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
         URI uri = new URI("/subscription/" + subscription.getId());
-        System.out.println(subscription);
+        //System.out.println(subscription);
         return Response.created(uri).build();
     }
 }

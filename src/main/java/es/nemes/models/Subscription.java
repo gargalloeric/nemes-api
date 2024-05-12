@@ -8,6 +8,8 @@ import java.util.List;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 public class Subscription {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,6 +17,31 @@ public class Subscription {
     NUser user;
     @OneToOne
     Zone zone;
+
+    public NUser getUser() {
+        return user;
+    }
+
+    public void setUser(NUser user) {
+        this.user = user;
+    }
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
     @OneToMany(cascade = CascadeType.ALL)
     List<Event> events;
 
@@ -33,6 +60,9 @@ public class Subscription {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
