@@ -1,16 +1,24 @@
 package es.nemes.models;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 
-//@IdClass(CatastropheKey.class)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @NamedQueries({
-        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c")
-})
+        @NamedQuery(name = "findActiveById", query = "SELECT c FROM Catastrophe c " +
+                "WHERE c.name = :name " +
+                "AND c.lastValidDate >= CURRENT_DATE " +
+                "AND c.startDate = :startdate " +
+                "AND c.event.eventName = :eventname " +
+                "AND c.event.severity = :severity " +
+                "AND 0.1 > abs(:centerlat - c.zone.centerLat) " +
+                "AND 0.1 > abs(:centerlon - c.zone.centerLon) "
+        ),
+        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c "
+        )
+    })
 
 @Entity
 public class Catastrophe {
@@ -27,7 +35,11 @@ public class Catastrophe {
     private LocalDate startDate;
     private LocalDate lastValidDate;
     @Id
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "zonecenterlat", referencedColumnName = "centerlat"),
+            @JoinColumn(name = "zonecenterlon", referencedColumnName = "centerlon")})
+
     private Zone zone;
 
     public Catastrophe() {}

@@ -1,45 +1,36 @@
 package es.nemes.models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Zone.findAll", query = "SELECT z FROM Zone z"),
+        @NamedQuery(name = "Zone.findByCenter", query = "SELECT z FROM Zone z WHERE z.centerLat = :lat AND z.centerLon = :lon")
+})
 public class Zone {
 
+    // mannually added center, don't use coordinate as it will difficult queries
     @Id
-    @GeneratedValue
-    private Long id;
+    @Column(precision=6, scale=4)
+    private BigDecimal centerLat;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Coordinate center;
+    @Id
+    @Column(precision=6, scale=4)
+    private BigDecimal centerLon;
+
     private int radius;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Coordinate> polygons;
+    private String descriptiveName;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zone")
+    private List<Coordinate> polygon;
 
     public Zone() {
-    }
-
-    public Zone(Coordinate center, int radius, List<Coordinate> polygons) {
-        this.center = center;
-        this.radius = radius;
-        this.polygons = polygons;
-    }
-
-    @Transient
-    public static final Zone NOT_FOUND = new Zone(null, 0, null);
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Coordinate getCenter() {
-        return center;
     }
 
     public int getRadius() {
@@ -47,28 +38,66 @@ public class Zone {
     }
 
     public List<Coordinate> getPolygons() {
-        return polygons;
-    }
-
-    public void setCenter(Coordinate center) {
-        this.center = center;
+        return polygon;
     }
 
     public void setRadius(int radius) {
         this.radius = radius;
     }
 
-    public void setPolygons(List<Coordinate> polygon) {
-        this.polygons = polygon;
+    public void setPolygon(List<Coordinate> polygon) {
+        this.polygon = polygon;
+    }
+
+    public BigDecimal getCenterLat() {
+        return centerLat;
+    }
+
+    public void setCenterLat(BigDecimal lat) {
+        this.centerLat = lat;
+    }
+
+    public BigDecimal getCenterLon() {
+        return centerLon;
+    }
+
+    public void setCenterLon(BigDecimal lon) {
+        this.centerLon = lon;
     }
 
     @Override
     public String toString() {
         return "Zone{" +
-                "id=" + id +
-                ", center=" + center +
+                "lat=" + centerLat +
+                ", lon=" + centerLon +
                 ", radius=" + radius +
-                ", polygons=" + polygons +
+                ", polygon=" + polygon +
                 '}';
+    }
+
+    public void configureCoordinates() {
+        for (Coordinate coordinate : polygon) {
+            coordinate.setZone(this);
+        }
+    }
+
+    public String getDescriptiveName() {
+        return descriptiveName;
+    }
+
+    public void setDescriptiveName(String descriptiveName) {
+        this.descriptiveName = descriptiveName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Zone zone)) return false;
+        return Objects.equals(getCenterLat(), zone.getCenterLat()) && Objects.equals(getCenterLon(), zone.getCenterLon());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCenterLat(), getCenterLon());
     }
 }

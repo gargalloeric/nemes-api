@@ -25,7 +25,7 @@ public class CatastropheDAOJPA implements CatastropheDAO {
     }
 
     @Override
-    public Collection<Catastrophe> getCatastrophes() {
+    public List<Catastrophe> getCatastrophes() {
         TypedQuery<Catastrophe> query = em.createNamedQuery("Catastrophe.findAll", Catastrophe.class);
         List<Catastrophe> result = query.getResultList();
         if (result != null) return result;
