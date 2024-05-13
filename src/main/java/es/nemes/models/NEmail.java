@@ -8,6 +8,15 @@ public class NEmail {
     String subject;
     String message;
 
+    public NEmail() {
+    }
+
+    public NEmail(String to, String subject, String message) {
+        this.to = to;
+        this.subject = subject;
+        this.message = message;
+    }
+
     public String getTo() {
         return to;
     }
