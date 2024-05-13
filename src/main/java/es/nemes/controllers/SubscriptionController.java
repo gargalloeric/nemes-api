@@ -52,17 +52,7 @@ public class SubscriptionController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        List<String> queryEventsName = subscriptionQuery.getEventsName();
-        List<String> queryEventsSeverity = subscriptionQuery.getEventsSeverity();
-        List<Event> events = new ArrayList<>();
-        for (int i = 0; i < queryEventsName.size(); i++) {
-            String eventName = queryEventsName.get(i);
-            String eventSeverity = queryEventsSeverity.get(i);
-
-            Event eventFound = eventDAO.findById(eventName, eventSeverity);
-
-            events.add(eventFound);
-        }
+        List<String> queryEventsNames = subscriptionQuery.getEventsName();
 
         /*Event eventMock = new Event();
         eventMock.setEventName("Falso");
@@ -72,7 +62,7 @@ public class SubscriptionController {
         Subscription subscription = new Subscription(
                 user,
                 zone,
-                events);
+                queryEventsNames);
 
         Subscription response = dao.create(subscription);
         if (response == Subscription.NOT_FOUND) return Response.status(Response.Status.CONFLICT).build();
