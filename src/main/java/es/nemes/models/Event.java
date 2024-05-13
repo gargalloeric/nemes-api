@@ -7,6 +7,8 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.transaction.Transactional;
 
+import java.util.Objects;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
 @NamedQueries({
@@ -53,6 +55,18 @@ public class Event {
                 ", severity='" + severity + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Event event)) return false;
+        return Objects.equals(getEventName(), event.getEventName()) && Objects.equals(getSeverity(), event.getSeverity());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEventName(), getSeverity());
     }
 }
 

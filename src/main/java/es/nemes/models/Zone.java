@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Entity
@@ -86,5 +87,17 @@ public class Zone {
 
     public void setDescriptiveName(String descriptiveName) {
         this.descriptiveName = descriptiveName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Zone zone)) return false;
+        return Objects.equals(getCenterLat(), zone.getCenterLat()) && Objects.equals(getCenterLon(), zone.getCenterLon());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCenterLat(), getCenterLon());
     }
 }
