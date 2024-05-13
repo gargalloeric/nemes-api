@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@NamedQueries({
+        @NamedQuery(name = "Subscription.findAll", query = "SELECT s FROM Subscription s")
+})
 @Entity
 public class Subscription {
 
@@ -17,7 +20,7 @@ public class Subscription {
     NUser user;
     @ManyToOne
     Zone zone;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     List<Event> events;
 
     public NUser getUser() {
