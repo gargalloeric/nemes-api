@@ -31,4 +31,12 @@ public class CatastropheDAOJPA implements CatastropheDAO {
         if (result != null) return result;
         return new ArrayList<>();
     }
+
+    @Override
+    public List<Catastrophe> getFilteredCatastrophes() {
+        TypedQuery<Catastrophe> query = em.createNamedQuery("Catastrophe.findFiltered", Catastrophe.class);
+        List<Catastrophe> result = query.getResultList();
+        if (result != null) return result;
+        return new ArrayList<>();
+    }
 }

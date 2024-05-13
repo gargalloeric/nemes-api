@@ -17,7 +17,11 @@ import java.time.LocalDate;
                 "AND 0.1 > abs(:centerlon - c.zone.centerLon) "
         ),
         @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c "
-        )
+        ),
+        @NamedQuery(name = "Catastrophe.findFiltered", query = "SELECT c FROM Catastrophe c " +
+                "WHERE c.startDate >= :startdate " +
+                "AND c.lastValidDate <= :finishdate "
+        ),
     })
 
 @Entity

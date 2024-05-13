@@ -7,4 +7,5 @@ import java.util.List;
 public interface CatastropheDAO {
     Catastrophe create(Catastrophe cat);
     List<Catastrophe> getCatastrophes();
+    List<Catastrophe> getFilteredCatastrophes();
 }

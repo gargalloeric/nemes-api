@@ -1,5 +1,6 @@
 package es.nemes.controllers;
 
+import es.nemes.models.FilterQuery;
 import es.nemes.models.NUser;
 import es.nemes.models.NUserLogin;
 import es.nemes.repositories.CatastropheDAO;
@@ -24,5 +25,13 @@ public class CatastropheController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCatastrophes() {
         return Response.ok(dao.getCatastrophes()).build();
+    }
+
+    @GET
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/filtered")
+    public Response getFilteredCatastrophes(FilterQuery queryFilterCatastrophes) {
+
     }
 }
