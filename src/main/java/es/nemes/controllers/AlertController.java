@@ -63,11 +63,12 @@ public class AlertController {
 
     private Map<String, List<Catastrophe>> compareSubscriptionsAndCatastrophes
             (List<Subscription> subscriptions, List<Catastrophe> catastrophes) {
+
         Map<String, List<Catastrophe>> alertMap = new HashMap<>();
 
         for (Subscription subscription : subscriptions) {
             for (Catastrophe catastrophe : catastrophes) {
-                if (subscription.getEvents().contains(catastrophe.getEvent()) && subscription.getZone().equals(catastrophe.getZone())) {
+                if (subscription.getEvents().contains(catastrophe.getEvent().getEventName()) && subscription.getZone().equals(catastrophe.getZone())) {
                     String userEmail = subscription.getUser().getEmail();
 //                    System.out.println("User email: " + userEmail);
 
