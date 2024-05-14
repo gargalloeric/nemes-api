@@ -2,6 +2,7 @@ package es.nemes.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jdk.jfr.Name;
 
 import java.time.LocalDate;
 
@@ -16,13 +17,14 @@ import java.time.LocalDate;
                 "AND 0.1 > abs(:centerlat - c.zone.centerLat) " +
                 "AND 0.1 > abs(:centerlon - c.zone.centerLon) "
         ),
-        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c "
+        @NamedQuery(name = "Catastrophe.findAll", query = "SELECT c FROM Catastrophe c " +
+                "WHERE c.lastValidDate >= CURRENT_DATE "
         ),
         @NamedQuery(name = "Catastrophe.findFiltered", query = "SELECT c FROM Catastrophe c " +
                 "WHERE c.startDate >= :startdate " +
                 "AND c.lastValidDate <= :finishdate " +
                 "AND c.event.eventName IN :eventnames "
-        ),
+        )
     })
 
 @Entity
