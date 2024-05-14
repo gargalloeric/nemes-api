@@ -22,14 +22,6 @@ public class SubscriptionDAOJPA implements SubscriptionDAO {
     @Override
     @Transactional
     public Subscription create(Subscription subscription) {
-        List<Event> events = new ArrayList<>();
-        for (Event event : subscription.getEvents()){
-            Event e = em.find(Event.class, event);
-            events.add(e);
-            em.merge(e);
-
-        }
-        subscription.setEvents(events);
         em.persist(subscription);
         return subscription;
     }
