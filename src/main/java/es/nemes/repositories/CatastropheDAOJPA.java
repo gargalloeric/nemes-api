@@ -9,8 +9,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @ApplicationScoped
@@ -33,8 +35,11 @@ public class CatastropheDAOJPA implements CatastropheDAO {
     }
 
     @Override
-    public List<Catastrophe> getFilteredCatastrophes() {
-        TypedQuery<Catastrophe> query = em.createNamedQuery("Catastrophe.findFiltered", Catastrophe.class);
+    public List<Catastrophe> getFilteredCatastrophes(LocalDate startDate, LocalDate finishDate, List<String> events) {
+        TypedQuery<Catastrophe> query = em.createNamedQuery("Catastrophe.findFiltered", Catastrophe.class)
+                .setParameter("startdate", startDate)
+                .setParameter("finishdate", finishDate)
+                .setParameter("eventnames", events);
         List<Catastrophe> result = query.getResultList();
         if (result != null) return result;
         return new ArrayList<>();

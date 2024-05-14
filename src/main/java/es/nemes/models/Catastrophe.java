@@ -20,7 +20,8 @@ import java.time.LocalDate;
         ),
         @NamedQuery(name = "Catastrophe.findFiltered", query = "SELECT c FROM Catastrophe c " +
                 "WHERE c.startDate >= :startdate " +
-                "AND c.lastValidDate <= :finishdate "
+                "AND c.lastValidDate <= :finishdate " +
+                "AND c.event.eventName IN :eventnames "
         ),
     })
 
