@@ -32,7 +32,7 @@ public class CatastropheController {
         return Response.ok(dao.getCatastrophes()).build();
     }
 
-    @GET
+    @POST
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/filtered")
