@@ -12,7 +12,6 @@ import java.util.List;
 @Entity
 public class Subscription {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,8 +19,10 @@ public class Subscription {
     NUser user;
     @ManyToOne
     Zone zone;
-    @ManyToMany(cascade = CascadeType.ALL)
-    List<Event> events;
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "subscribed_events", joinColumns = @JoinColumn(name = "subscriptrion_id"))
+    @Column(name = "event", nullable = false)
+    List<String> subscribedEventsNames;
 
     public NUser getUser() {
         return user;
@@ -39,22 +40,21 @@ public class Subscription {
         this.zone = zone;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<String> getEvents() {
+        return subscribedEventsNames;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEvents(List<String> events) {
+        this.subscribedEventsNames = events;
     }
-
 
 
     public Subscription() { super(); }
 
-    public Subscription(NUser user, Zone zone, List<Event> events) {
+    public Subscription(NUser user, Zone zone, List<String> eventsNames) {
         this.user = user;
         this.zone = zone;
-        this.events = events;
+        this.subscribedEventsNames = eventsNames;
     }
 
     @Transient
@@ -74,7 +74,7 @@ public class Subscription {
                 "id=" + id +
                 ", user=" + user +
                 ", zone=" + zone +
-                ", events=" + events +
+                ", events=" + subscribedEventsNames +
                 '}';
     }
 }

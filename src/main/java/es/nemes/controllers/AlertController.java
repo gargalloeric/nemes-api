@@ -48,9 +48,21 @@ public class AlertController {
         List<NEmail> alertsToSend = new ArrayList<>();
         for (Map.Entry<String, List<Catastrophe>> entry : alertMap.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
-            alertsToSend.add(new NEmail(entry.getKey(), "Alerta", entry.getValue().toString()));
+            alertsToSend.add(new NEmail(entry.getKey(), "Alerta", beautifyCatastropheListMessage(entry.getValue())));
         }
         mailer.send(alertsToSend);
+    }
+
+    private String beautifyCatastropheListMessage(List<Catastrophe> catastropheList) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Existen ").append(catastropheList.size()).append(" catastrofes activas en tus suscripciones");
+        sb.append("\nCatastrofes:");
+        for (Catastrophe catastrophe : catastropheList) {
+            sb.append("\nEn: ").append(catastrophe.getName()).append(" - ").append(catastrophe.getEvent().getSeverity());
+        }
+        sb.append("\n\nMuchas gracias por confiar en nuestro servicio!");
+        sb.append("\nHasta la próxima");
+        return sb.toString();
     }
 
     private List<Catastrophe> fetchAllCatastrophesFromDb() {
@@ -63,11 +75,12 @@ public class AlertController {
 
     private Map<String, List<Catastrophe>> compareSubscriptionsAndCatastrophes
             (List<Subscription> subscriptions, List<Catastrophe> catastrophes) {
+
         Map<String, List<Catastrophe>> alertMap = new HashMap<>();
 
         for (Subscription subscription : subscriptions) {
             for (Catastrophe catastrophe : catastrophes) {
-                if (subscription.getEvents().contains(catastrophe.getEvent()) && subscription.getZone().equals(catastrophe.getZone())) {
+                if (subscription.getEvents().contains(catastrophe.getEvent().getEventName()) && subscription.getZone().equals(catastrophe.getZone())) {
                     String userEmail = subscription.getUser().getEmail();
 //                    System.out.println("User email: " + userEmail);
 
